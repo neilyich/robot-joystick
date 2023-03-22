@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Robot Joystick</string>
+    <string name="search_new_devices">Искать новые устройства</string>
+    <string name="known_devices">Ранее подключенные устройства</string>
+    <string name="loading">Загрузка…</string>
+</resources>

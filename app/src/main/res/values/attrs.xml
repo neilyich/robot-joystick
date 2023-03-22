@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="JoystickView">
+        <attr name="circleColor" format="color"/>
+        <attr name="circleColorDark" format="color"/>
+        <attr name="circleShadowColor" format="color"/>
+
+        <attr name="sliderColor" format="color"/>
+        <attr name="sliderColorLight" format="color"/>
+        <attr name="sliderShadowColor" format="color"/>
+
+        <attr name="sliderWeight" format="float"/>
+
+        <attr name="arrowPaddingWeight" format="float"/>
+        <attr name="arrowWeight" format="float"/>
+        <attr name="arrowHeadLengthWeight" format="float"/>
+        <attr name="arrowHeadDegrees" format="float"/>
+        <attr name="arrowColor" format="color"/>
+
+        <attr name="android:padding" format="dimension"/>
+    </declare-styleable>
+</resources>
