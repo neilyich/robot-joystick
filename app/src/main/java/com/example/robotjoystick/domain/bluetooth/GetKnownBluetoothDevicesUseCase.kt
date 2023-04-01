@@ -2,7 +2,7 @@ package com.example.robotjoystick.domain.bluetooth
 
 import com.example.robotjoystick.data.bluetooth.permissions.BluetoothPermissionsManager
 import com.example.robotjoystick.data.bluetooth.permissions.withConnectPermissions
-import com.example.robotjoystick.data.bluetooth.scanner.BluetoothDeviceData
+import com.example.robotjoystick.data.bluetooth.device.BluetoothDeviceData
 import com.example.robotjoystick.data.bluetooth.scanner.BluetoothDevicesScanner
 import javax.inject.Inject
 

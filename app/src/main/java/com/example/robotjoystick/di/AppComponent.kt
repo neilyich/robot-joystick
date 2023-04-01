@@ -1,15 +1,30 @@
 package com.example.robotjoystick.di
 
-import com.example.robotjoystick.view.example.ExampleFragment
-import com.example.robotjoystick.view.joystick.JoystickFragment
-import com.example.robotjoystick.view.knowndevices.KnownBluetoothDevicesFragment
+import android.app.Application
+import com.example.robotjoystick.RobotJoystickApp
+import dagger.BindsInstance
 import dagger.Component
+import dagger.android.AndroidInjectionModule
+import dagger.android.AndroidInjector
+import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [ContextModule::class, ViewModelsModule::class, BluetoothModule::class])
-interface AppComponent {
-    fun inject(fragment: ExampleFragment)
-    fun inject(fragment: KnownBluetoothDevicesFragment)
-    fun inject(fragment: JoystickFragment)
+@Component(modules = [
+    AndroidSupportInjectionModule::class,
+    MainActivityProviders::class,
+    ActivityBuilder::class,
+    ContextModule::class,
+    ViewModelsModule::class,
+    BluetoothModule::class,
+    NavigationModule::class,
+])
+interface AppComponent : AndroidInjector<RobotJoystickApp> {
+    @Component.Builder
+    interface Builder {
+        @BindsInstance
+        fun application(application: Application): Builder
+
+        fun build(): AppComponent
+    }
 }

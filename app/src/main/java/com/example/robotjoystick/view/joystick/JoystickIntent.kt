@@ -9,4 +9,10 @@ sealed interface JoystickIntent : Intent {
     data class JoystickDirectionChanged(
         val direction: JoystickDirection
     ) : JoystickIntent
+
+    object BackPressed : JoystickIntent
+
+    object QuitConfirmed : JoystickIntent
+
+    object NewsShown : JoystickIntent
 }

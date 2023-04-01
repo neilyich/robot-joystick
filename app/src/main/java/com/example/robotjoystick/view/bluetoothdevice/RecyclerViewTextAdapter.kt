@@ -1,5 +1,7 @@
 package com.example.robotjoystick.view.bluetoothdevice
 
+import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
@@ -37,6 +39,7 @@ class RecyclerViewTextAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = TextView(parent.context)
+        view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f);
         return ViewHolder(view, clickCallback)
     }
 

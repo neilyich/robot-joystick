@@ -14,13 +14,10 @@ class FoundBluetoothDeviceReceiver(
 ) : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent?.action == BluetoothDevice.ACTION_FOUND) {
-            Log.i("FOUND", "!!!")
             val found: BluetoothDevice? = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
             CoroutineScope(Dispatchers.IO).launch {
                 found?.let { handler(it) }
             }
-        } else {
-            Log.i("AAAA", "${intent?.action}")
         }
     }
 

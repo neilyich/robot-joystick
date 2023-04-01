@@ -35,8 +35,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -45,10 +45,22 @@ android {
 
 dependencies {
     // Dagger2
-    def dagger2_v = "2.25.2"
+    def dagger2_v = "2.40.5"
     implementation "com.google.dagger:dagger:$dagger2_v"
     kapt "com.google.dagger:dagger-compiler:$dagger2_v"
-    //kapt "com.google.dagger:dagger-android-processor:$dagger2_v"
+    kapt "com.google.dagger:dagger-android-processor:$dagger2_v"
+    implementation "com.google.dagger:dagger-android-support:$dagger2_v"
+    kapt "com.google.dagger:dagger-android-support:$dagger2_v"
+    kapt "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0"
+
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
+
+    implementation 'com.github.terrakok:cicerone:7.1'
+
+    implementation 'com.google.dagger:dagger:2.40.5'
+    kapt 'com.google.dagger:dagger-compiler:2.40.5'
+    implementation 'com.google.dagger:dagger-android:2.40.5'
+    kapt 'com.google.dagger:dagger-android-processor:2.40.5'
 
     implementation 'androidx.fragment:fragment-ktx:1.5.5'
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")

@@ -8,7 +8,8 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.robotjoystick.R
-import com.example.robotjoystick.data.bluetooth.scanner.BluetoothDeviceData
+import com.example.robotjoystick.data.bluetooth.device.BluetoothDeviceData
+import com.example.robotjoystick.data.bluetooth.device.BondState
 import com.example.robotjoystick.databinding.BluetoothDeviceDataItemBinding
 
 class BluetoothDeviceDataArrayAdapter(
@@ -42,9 +43,9 @@ class BluetoothDeviceDataArrayAdapter(
         }
         val item = getItem(position)!!
         viewHolder.item = item
-        viewHolder.tvName.text = item.name
+        viewHolder.tvName.text = item.name.ifBlank { context.getString(R.string.unknown_device) }
         viewHolder.tvAddress.text = item.address
-        viewHolder.icon.visibility = if (item.bondState == BluetoothDeviceData.BondState.BONDED) {
+        viewHolder.icon.visibility = if (item.bondState == BondState.BONDED) {
             View.VISIBLE
         } else {
             View.INVISIBLE

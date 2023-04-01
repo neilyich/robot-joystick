@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Robot Joystick</string>
-    <string name="search_new_devices">Искать новые устройства</string>
+    <string name="search_new_devices">Искать доступные устройства</string>
     <string name="known_devices">Ранее подключенные устройства</string>
+    <string name="search_new_devices_title">Поиск доступных устройств</string>
     <string name="loading">Загрузка…</string>
+    <string name="stop_search_and_back">Вернуться назад и прекратить поиск</string>
+    <string name="dialog_quit_and_disconnect">Отключиться от устройства %s?</string>
+    <string name="ok">Ок</string>
+    <string name="cancel">Отмена</string>
+    <string name="unknown_device">Неизвестное устройство</string>
 </resources>

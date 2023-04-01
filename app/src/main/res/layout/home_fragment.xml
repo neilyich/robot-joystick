@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/known_bluetooth_devices_fragment"
+    <include layout="@layout/known_devices_fragment"
         android:id="@+id/devices_list_view"
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"

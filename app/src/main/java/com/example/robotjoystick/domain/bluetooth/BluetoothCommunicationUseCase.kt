@@ -5,7 +5,7 @@ import com.example.robotjoystick.data.bluetooth.communicator.BluetoothCommunicat
 import com.example.robotjoystick.data.bluetooth.communicator.factory.BluetoothCommunicatorFactory
 import com.example.robotjoystick.data.bluetooth.permissions.BluetoothPermissionsManager
 import com.example.robotjoystick.data.bluetooth.permissions.withConnectPermissions
-import com.example.robotjoystick.data.bluetooth.scanner.BluetoothDeviceData
+import com.example.robotjoystick.data.bluetooth.device.BluetoothDeviceData
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -21,7 +21,7 @@ class BluetoothCommunicationUseCase @Inject constructor(
 
     @Throws(SecurityException::class)
     suspend fun start(bluetoothDeviceData: BluetoothDeviceData) {
-        cancel()
+        stop()
         val connector = connectBluetooth(bluetoothDeviceData)
         communication = permissionsManager.withConnectPermissions {
             RecoverableBluetoothCommunication(connector, bluetoothCommunicatorFactory).also { it.start() }
@@ -32,7 +32,7 @@ class BluetoothCommunicationUseCase @Inject constructor(
         return communication?.sendAndReceive(message) ?: throw IllegalStateException("Call start() before sendAndReceive()")
     }
 
-    suspend fun cancel() {
+    suspend fun stop() {
         communication?.stop()
         communication = null
     }

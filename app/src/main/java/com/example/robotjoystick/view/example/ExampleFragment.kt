@@ -19,8 +19,6 @@ import com.example.robotjoystick.view.BaseFragment
 import javax.inject.Inject
 
 class ExampleFragment : BaseFragment<ExampleState, ExampleIntent, ExampleViewModel>() {
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
     override val viewModel: ExampleViewModel by viewModels { viewModelFactory }
 
     private lateinit var binding: ExampleFragmentBinding
@@ -29,11 +27,6 @@ class ExampleFragment : BaseFragment<ExampleState, ExampleIntent, ExampleViewMod
     lateinit var bluetoothAdapter: BluetoothAdapter
     private lateinit var enableBluetoothLauncher: ActivityResultLauncher<Intent>
     private lateinit var bluetoothPermissionLauncher: ActivityResultLauncher<Array<String>>
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        RobotJoystickApp.appComponent.inject(this)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,8 +54,8 @@ class ExampleFragment : BaseFragment<ExampleState, ExampleIntent, ExampleViewMod
 //    override fun onResume() {
 //        super.onResume()
 //        if (!bluetoothAdapter.isEnabled) {
-//            val intent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-//            enableBluetoothLauncher.launch(intent)
+//            val send = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+//            enableBluetoothLauncher.launch(send)
 //        }
 //    }
 

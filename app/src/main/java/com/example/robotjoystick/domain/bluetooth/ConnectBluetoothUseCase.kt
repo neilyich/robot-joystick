@@ -7,7 +7,7 @@ import com.example.robotjoystick.data.bluetooth.connector.BluetoothConnector
 import com.example.robotjoystick.data.bluetooth.connector.factory.BluetoothConnectorFactory
 import com.example.robotjoystick.data.bluetooth.permissions.BluetoothPermissionsManager
 import com.example.robotjoystick.data.bluetooth.permissions.withConnectPermissions
-import com.example.robotjoystick.data.bluetooth.scanner.BluetoothDeviceData
+import com.example.robotjoystick.data.bluetooth.device.BluetoothDeviceData
 import javax.inject.Inject
 
 @SuppressLint("MissingPermission")

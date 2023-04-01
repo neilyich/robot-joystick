@@ -12,8 +12,17 @@ import java.util.*
 class SimpleBluetoothConnector(
     device: BluetoothDevice
 ) : BluetoothConnector {
-    private val sock: BluetoothSocket = device.createRfcommSocketToServiceRecord(UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"))
-        ?: throw IOException("Unable to create socket")
+    private val sock: BluetoothSocket
+
+    init {
+        val uuid = if (device.uuids.isEmpty()) {
+            UUID.fromString("00001101-0000-1000-8000-00805F9B34FB") // SPP uuid
+        } else {
+            device.uuids[0].uuid
+        }
+        sock = device.createRfcommSocketToServiceRecord(uuid)
+            ?: throw IOException("Unable to create socket")
+    }
 
     private var isConnected = false
     override val inputStream: InputStream = sock.inputStream
