@@ -43,6 +43,11 @@ class JoystickFragment : BaseFragment<JoystickState, JoystickIntent, JoystickVie
         return binding.root
     }
 
+    override fun onStop() {
+        super.onStop()
+        send(JoystickIntent.Stopped)
+    }
+
     override fun render(state: JoystickState) {
         binding.listTitle.text = state.deviceName
         adapter.submitList(state.messages)

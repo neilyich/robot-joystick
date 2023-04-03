@@ -5,7 +5,6 @@ import com.example.robotjoystick.view.Intent
 
 sealed interface KnownDevicesIntent : Intent {
 
-    object ScanNewDevicesClicked : KnownDevicesIntent
     object RefreshClicked : KnownDevicesIntent
 
     object CreateView : KnownDevicesIntent

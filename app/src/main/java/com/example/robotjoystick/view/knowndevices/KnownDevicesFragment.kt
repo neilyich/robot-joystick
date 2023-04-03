@@ -24,10 +24,6 @@ class KnownDevicesFragment : BaseFragment<KnownDevicesState, KnownDevicesIntent,
     ): View {
         binding = KnownDevicesFragmentBinding.inflate(inflater, container, false)
 
-        binding.btnScanNewDevices.setOnClickListener {
-            send(ScanNewDevicesClicked)
-        }
-
         binding.btnRefresh.setOnClickListener {
             send(RefreshClicked)
         }
@@ -49,33 +45,5 @@ class KnownDevicesFragment : BaseFragment<KnownDevicesState, KnownDevicesIntent,
             binding.listTitle.text = getString(R.string.known_devices)
         }
         listAdapter.submitList(state.devices)
-//        state.navigateTo?.let {
-//            when (it) {
-//                is KnownDevicesState.Destination.Joystick -> goToJoystickFragment(it.device)
-//                KnownDevicesState.Destination.ScanNewDevices -> goToScanNewDevicesFragment()
-//            }
-//        }
     }
-
-//    private fun goToJoystickFragment(bluetoothDeviceData: BluetoothDeviceData) {
-//        val args = bundleOf(JoystickFragment.DEVICE_NAME to bluetoothDeviceData.name)
-//        val fragment = JoystickFragment()
-//        fragment.arguments = args
-//        performNavigation(fragment)
-//    }
-//
-//    private fun goToScanNewDevicesFragment() {
-//        val fragment = ScanDevicesFragment()
-//        performNavigation(fragment)
-//    }
-//
-//    private fun performNavigation(fragment: Fragment) {
-//        Log.i("navigating", "here")
-//        parentFragmentManager.beginTransaction()
-//            .addToBackStack(null)
-//            .replace(R.id.fragmentContainerView, fragment)
-//            .commit()
-//        send(NavigationPerformed)
-//    }
-
 }

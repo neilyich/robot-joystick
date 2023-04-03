@@ -34,12 +34,14 @@ class JoystickViewModel @Inject constructor(
                 )))
             }
             JoystickIntent.QuitConfirmed -> {
-                Log.i("BackPressed", "stopping")
-                communication.stop()
-                Log.i("BackPressed", "stopped")
                 router.exit()
             }
             JoystickIntent.NewsShown -> emit(state.copy(news = null))
+            JoystickIntent.Stopped -> {
+                Log.i("BackPressed", "stopping")
+                communication.stop()
+                Log.i("BackPressed", "stopped")
+            }
         }
     }
 }

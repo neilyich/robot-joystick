@@ -11,6 +11,4 @@ sealed interface ScanDevicesIntent : Intent {
     object Resumed : ScanDevicesIntent
 
     object Paused : ScanDevicesIntent
-
-    object BackButtonClicked : ScanDevicesIntent
 }

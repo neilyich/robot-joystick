@@ -21,10 +21,6 @@ class ScanDevicesViewModel @Inject constructor(
         intent: ScanDevicesIntent
     ) {
         when (intent) {
-            ScanDevicesIntent.BackButtonClicked -> {
-                Log.i("BackButtonClicked", "exiting")
-                router.exit()
-            }
             is ScanDevicesIntent.DeviceClicked -> {
                 scanBluetoothDevices.stop()
                 bluetoothCommunication.start(intent.device)

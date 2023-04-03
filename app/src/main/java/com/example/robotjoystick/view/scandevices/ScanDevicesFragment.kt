@@ -26,9 +26,6 @@ class ScanDevicesFragment : BaseFragment<ScanDevicesState, ScanDevicesIntent, Sc
             send(ScanDevicesIntent.DeviceClicked(it))
         })
         binding.list.adapter = adapter
-        binding.btnBack.setOnClickListener {
-            send(ScanDevicesIntent.BackButtonClicked)
-        }
         return binding.root
     }
 
