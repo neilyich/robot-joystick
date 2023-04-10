@@ -1,13 +1,15 @@
 package com.example.robotjoystick.data.bluetooth.permissions
 
 import android.Manifest
+import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import javax.inject.Inject
 
 class BluetoothPermissionsManagerImpl @Inject constructor(
-    private val context: Context
+    private val context: Context,
+    private val adapter: BluetoothAdapter,
 ) : BluetoothPermissionsManager {
     override fun connectPermissions(): List<String> {
         val permissionToCheck = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -19,6 +21,7 @@ class BluetoothPermissionsManagerImpl @Inject constructor(
     }
 
     override fun checkConnectPermission() {
+        checkBluetoothEnabled()
         checkPermissions(connectPermissions())
     }
 
@@ -36,6 +39,7 @@ class BluetoothPermissionsManagerImpl @Inject constructor(
     }
 
     override fun checkScanPermissions() {
+        checkBluetoothEnabled()
         checkPermissions(scanPermissions())
     }
 
@@ -43,6 +47,12 @@ class BluetoothPermissionsManagerImpl @Inject constructor(
         val deniedPermissions = permissions.filter { context.checkSelfPermission(it) != PackageManager.PERMISSION_GRANTED }
         if (deniedPermissions.isNotEmpty()) {
             throw PermissionsDeniedException(deniedPermissions)
+        }
+    }
+
+    override fun checkBluetoothEnabled() {
+        if (!adapter.isEnabled) {
+            throw BluetoothDisabledException()
         }
     }
 }

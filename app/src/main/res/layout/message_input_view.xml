@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <EditText
+        android:id="@+id/edit_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="5dp"
+        android:padding="5dp"
+        android:layout_toStartOf="@id/btn_send"
+        android:background="@drawable/edit_text_border"
+        android:inputType="text"
+        android:lines="3"
+        android:maxLines="5"
+        android:textSize="18sp"/>
+
+    <ImageButton
+        android:layout_margin="5dp"
+        android:padding="10dp"
+        android:id="@+id/btn_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/round_send_24"
+        android:backgroundTint="@color/primary"
+        android:contentDescription="Send button"
+        >
+    </ImageButton>
+
+</RelativeLayout>

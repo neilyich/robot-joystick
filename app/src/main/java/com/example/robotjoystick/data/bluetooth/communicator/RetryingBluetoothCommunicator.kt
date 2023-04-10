@@ -1,5 +1,6 @@
 package com.example.robotjoystick.data.bluetooth.communicator
 
+import android.util.Log
 import kotlinx.coroutines.delay
 import java.io.IOException
 
@@ -29,6 +30,7 @@ class RetryingBluetoothCommunicator<In, Out>(
     private suspend fun receiveOrNull() = try {
         delegate.receive()
     } catch (e: IOException) {
+        Log.e("RECEIVING", "", e)
         null
     }
 

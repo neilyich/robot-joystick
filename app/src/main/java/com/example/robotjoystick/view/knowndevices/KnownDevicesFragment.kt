@@ -8,10 +8,11 @@ import androidx.fragment.app.viewModels
 import com.example.robotjoystick.R
 import com.example.robotjoystick.databinding.KnownDevicesFragmentBinding
 import com.example.robotjoystick.view.BaseFragment
+import com.example.robotjoystick.view.bluetooth.BluetoothFragment
 import com.example.robotjoystick.view.bluetoothdevice.BluetoothDeviceDataArrayAdapter
 import com.example.robotjoystick.view.knowndevices.KnownDevicesIntent.*
 
-class KnownDevicesFragment : BaseFragment<KnownDevicesState, KnownDevicesIntent, KnownDevicesViewModel>() {
+class KnownDevicesFragment : BluetoothFragment<KnownDevicesState, KnownDevicesIntent, KnownDevicesViewModel>() {
     override val viewModel: KnownDevicesViewModel by viewModels { viewModelFactory }
 
     private lateinit var binding: KnownDevicesFragmentBinding

@@ -14,7 +14,7 @@ sealed interface JoystickIntent : Intent {
 
     object Stopped : JoystickIntent
 
-    object QuitConfirmed : JoystickIntent
+    object DisconnectConfirmed : JoystickIntent
 
     object NewsShown : JoystickIntent
 }

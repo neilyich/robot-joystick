@@ -9,4 +9,9 @@
     <string name="ok">Ок</string>
     <string name="cancel">Отмена</string>
     <string name="unknown_device">Неизвестное устройство</string>
+    <string name="waiting_for_connection">Ожидание подключения…</string>
+    <string name="device_connected">Устройство %s подключено</string>
+    <string name="could_not_connect">Не удалось подключиться</string>
+    <string name="could_not_send">Не удалось отправить сообщение</string>
+    <string name="could_not_receive">Не удалось получить сообщение</string>
 </resources>

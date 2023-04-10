@@ -4,6 +4,7 @@ import android.util.Log
 
 suspend fun <T> BluetoothPermissionsManager.withConnectPermissions(action: suspend () -> T): T {
     //checkConnectPermission()
+    checkBluetoothEnabled()
     return try {
         action()
     } catch (e: SecurityException) {
@@ -14,6 +15,7 @@ suspend fun <T> BluetoothPermissionsManager.withConnectPermissions(action: suspe
 
 suspend fun <T> BluetoothPermissionsManager.withScanPermissions(action: suspend () -> T): T {
     //checkScanPermissions()
+    checkBluetoothEnabled()
     return try {
         action()
     } catch (e: SecurityException) {

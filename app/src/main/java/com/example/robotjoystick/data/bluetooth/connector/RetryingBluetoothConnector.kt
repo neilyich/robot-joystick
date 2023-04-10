@@ -13,8 +13,10 @@ class RetryingBluetoothConnector(
     constructor(device: BluetoothDevice, maxRetriesCount: Int) :
             this(SimpleBluetoothConnector(device), maxRetriesCount)
 
-    override val inputStream: InputStream = delegate.inputStream
-    override val outputStream: OutputStream = delegate.outputStream
+    override val inputStream: InputStream
+        get() = delegate.inputStream
+    override val outputStream: OutputStream
+        get() = delegate.outputStream
 
     override fun isConnected(): Boolean {
         return delegate.isConnected()

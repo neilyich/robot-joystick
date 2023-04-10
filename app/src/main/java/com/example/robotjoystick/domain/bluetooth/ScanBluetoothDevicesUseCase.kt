@@ -14,12 +14,13 @@ class ScanBluetoothDevicesUseCase @Inject constructor(
 ) {
 
     private val foundDevices = ArrayList<BluetoothDeviceData>()
-    suspend fun start(handler: suspend (updatedFoundDevices: List<BluetoothDeviceData>) -> Unit): Boolean {
+    suspend fun start(handler: suspend (updatedFoundDevices: List<BluetoothDeviceData>) -> Unit) {
+        stop()
         foundDevices.clear()
-        return permissionsManager.withScanPermissions {
-            devicesScanner.scanNewDevices { found ->
+        permissionsManager.withScanPermissions {
+            devicesScanner.scanDevices { found ->
                 val foundDeviceData = getBluetoothDeviceData(found)
-                if (foundDeviceData.address.isBlank()) return@scanNewDevices
+                if (foundDeviceData.address.isBlank()) return@scanDevices
                 var updated = false
                 synchronized(foundDevices) {
                     val index = foundDevices.indexOfFirst { it.address == found.address }

@@ -6,4 +6,5 @@ interface BluetoothPermissionsManager {
 
     fun scanPermissions(): List<String>
     fun checkScanPermissions()
+    fun checkBluetoothEnabled()
 }

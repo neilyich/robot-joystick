@@ -4,10 +4,12 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothManager
 import android.content.Context
+import com.example.robotjoystick.R
 import com.example.robotjoystick.data.bluetooth.communicator.BluetoothCommunicator
 import com.example.robotjoystick.data.bluetooth.communicator.LineBluetoothCommunicator
 import com.example.robotjoystick.data.bluetooth.communicator.factory.BluetoothCommunicatorFactory
 import com.example.robotjoystick.data.bluetooth.communicator.factory.RetryingBluetoothCommunicatorFactory
+import com.example.robotjoystick.data.bluetooth.connector.AcceptorBluetoothConnector
 import com.example.robotjoystick.data.bluetooth.connector.BluetoothConnector
 import com.example.robotjoystick.data.bluetooth.connector.factory.BluetoothConnectorFactory
 import com.example.robotjoystick.data.bluetooth.connector.RetryingBluetoothConnector
@@ -38,6 +40,11 @@ class BluetoothModule {
                 return RetryingBluetoothConnector(device, 3)
             }
         }
+    }
+
+    @Provides
+    fun provideAcceptorBluetoothConnector(adapter: BluetoothAdapter, context: Context): AcceptorBluetoothConnector {
+        return AcceptorBluetoothConnector(adapter, context.getString(R.string.app_name))
     }
 
     @Provides

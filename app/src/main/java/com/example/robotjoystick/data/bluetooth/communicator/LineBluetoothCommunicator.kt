@@ -1,5 +1,6 @@
 package com.example.robotjoystick.data.bluetooth.communicator
 
+import android.util.Log
 import com.example.robotjoystick.data.bluetooth.communicator.factory.BluetoothCommunicatorFactory
 import com.example.robotjoystick.data.bluetooth.connector.BluetoothConnector
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +20,7 @@ class LineBluetoothCommunicator(
     private val reader = BufferedReader(InputStreamReader(input))
 
     override suspend fun receive(): String = withContext(Dispatchers.IO) {
+        Log.i("RECEIVING", "!!!")
         reader.readLine()
     }
 

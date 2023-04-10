@@ -23,17 +23,16 @@ class BluetoothDevicesScannerImpl @Inject constructor(
     }
 
     @Throws(SecurityException::class)
-    override suspend fun scanNewDevices(handler: suspend (found: BluetoothDevice) -> Unit): Boolean {
+    override suspend fun scanDevices(handler: suspend (found: BluetoothDevice) -> Unit) {
         stopScan()
         synchronized(isScanning) {
-            if (isScanning.get()) return true
-            if (!adapter.startDiscovery()) return false
+            if (isScanning.get()) return
+            if (!adapter.startDiscovery()) throw SecurityException()
             receiver = FoundBluetoothDeviceReceiver(handler)
             context.registerReceiver(receiver, IntentFilter(BluetoothDevice.ACTION_FOUND))
             Log.i("REG", "here")
             isScanning.set(true)
         }
-        return true
     }
 
     @Throws(SecurityException::class)

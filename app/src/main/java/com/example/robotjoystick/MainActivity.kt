@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.example.robotjoystick.databinding.ActivityMainBinding
 import com.example.robotjoystick.view.knowndevices.KnownDevicesScreen
 import com.example.robotjoystick.view.scandevices.ScanDevicesScreen
+import com.example.robotjoystick.view.terminal.TerminalScreen
 import com.github.terrakok.cicerone.Navigator
 import com.github.terrakok.cicerone.NavigatorHolder
 import com.github.terrakok.cicerone.Router
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         val screen = when (id) {
                 R.id.menu_item_known_devices -> KnownDevicesScreen()
                 R.id.menu_item_scan_devices -> ScanDevicesScreen()
+                R.id.menu_item_terminal -> TerminalScreen()
                 R.id.menu_item_settings -> return false // todo
                 else -> return false
             }

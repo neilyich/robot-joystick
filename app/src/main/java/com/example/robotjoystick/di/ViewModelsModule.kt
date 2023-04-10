@@ -3,10 +3,10 @@ package com.example.robotjoystick.di
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.robotjoystick.di.annotations.ViewModelKey
-import com.example.robotjoystick.view.example.ExampleViewModel
 import com.example.robotjoystick.view.joystick.JoystickViewModel
 import com.example.robotjoystick.view.knowndevices.KnownDevicesViewModel
 import com.example.robotjoystick.view.scandevices.ScanDevicesViewModel
+import com.example.robotjoystick.view.terminal.TerminalViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -16,8 +16,8 @@ abstract class ViewModelsModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(ExampleViewModel::class)
-    abstract fun bindExampleViewModel(viewModel: ExampleViewModel): ViewModel
+    @ViewModelKey(TerminalViewModel::class)
+    abstract fun bindTerminalViewModel(viewModel: TerminalViewModel): ViewModel
 
     @Binds
     @IntoMap

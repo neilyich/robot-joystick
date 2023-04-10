@@ -20,16 +20,23 @@ class RecoverableBluetoothCommunication<In, Out, Communicator : BluetoothCommuni
     }
 
     suspend fun sendAndReceive(o: Out): In {
+        if (!connector.isConnected()) {
+            throw BluetoothCommunicationException("Could not send message (disconnected)", null, BluetoothCommunicationException.Type.SEND)
+        } else {
+            Log.i("TEST1", "connector is connected")
+        }
         try {
             communicator.send(o)
 
         } catch (e: IOException) {
-            throw BluetoothCommunicationException("Could not send message", e)
+            throw BluetoothCommunicationException("Could not send message", e, BluetoothCommunicationException.Type.SEND)
         }
-        return communicator.receive() ?: throw BluetoothCommunicationException("Could not read answer")
+        return communicator.receive() ?:
+            throw BluetoothCommunicationException("Could not read answer", null, BluetoothCommunicationException.Type.RECEIVE)
     }
 
     suspend fun stop() {
         connector.disconnect()
+        Log.i("TEST1", "disconnect")
     }
 }

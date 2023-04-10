@@ -1,7 +1,7 @@
 package com.example.robotjoystick.view.joystick
 
 import android.os.Bundle
-import android.util.Log
+import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +9,11 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import com.example.robotjoystick.databinding.JoystickFragmentBinding
 import com.example.robotjoystick.view.BaseFragment
+import com.example.robotjoystick.view.bluetooth.BluetoothFragment
 import com.example.robotjoystick.view.bluetoothdevice.RecyclerViewTextAdapter
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.example.robotjoystick.view.news.AppNews
 
-class JoystickFragment : BaseFragment<JoystickState, JoystickIntent, JoystickViewModel>() {
+class JoystickFragment : BluetoothFragment<JoystickState, JoystickIntent, JoystickViewModel>() {
     override val viewModel: JoystickViewModel by viewModels { viewModelFactory }
 
     private lateinit var binding: JoystickFragmentBinding
@@ -53,20 +54,21 @@ class JoystickFragment : BaseFragment<JoystickState, JoystickIntent, JoystickVie
         adapter.submitList(state.messages)
         state.news?.let {
             when (it) {
-                is JoystickState.News.ShowQuitDialog -> showQuitDialog(it)
+                is JoystickState.News.DisconnectDialog -> showQuitDialog(it)
+                JoystickState.News.PerformHapticFeedback -> binding.joystick.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
             }
             send(JoystickIntent.NewsShown)
         }
     }
 
-    private fun showQuitDialog(data: JoystickState.News.ShowQuitDialog) {
-        MaterialAlertDialogBuilder(requireContext())
-            .setMessage(getString(data.title).format(data.titleArg))
-            .setPositiveButton(data.positiveButtonText) { _, _ ->
-                send(JoystickIntent.QuitConfirmed)
-            }
-            .setNegativeButton(data.negativeButtonText, null)
-            .show()
+    private fun showQuitDialog(data: JoystickState.News.DisconnectDialog) {
+        news.show(AppNews.Dialog(
+            title = getString(data.title).format(data.titleArg),
+            positiveText = getString(data.positiveButtonText),
+            negativeText = getString(data.negativeButtonText),
+            positiveCallback = { _, _ -> send(JoystickIntent.DisconnectConfirmed) },
+            negativeCallback = null,
+        ), requireContext())
     }
 
     companion object {

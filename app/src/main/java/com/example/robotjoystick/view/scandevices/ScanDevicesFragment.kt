@@ -8,9 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.robotjoystick.databinding.ScanNewDevicesFragmentBinding
 import com.example.robotjoystick.view.BaseFragment
+import com.example.robotjoystick.view.bluetooth.BluetoothFragment
 import com.example.robotjoystick.view.bluetoothdevice.BluetoothDeviceDataArrayAdapter
 
-class ScanDevicesFragment : BaseFragment<ScanDevicesState, ScanDevicesIntent, ScanDevicesViewModel>() {
+class ScanDevicesFragment : BluetoothFragment<ScanDevicesState, ScanDevicesIntent, ScanDevicesViewModel>() {
     override val viewModel: ScanDevicesViewModel by viewModels { viewModelFactory }
 
     private lateinit var binding: ScanNewDevicesFragmentBinding

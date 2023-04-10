@@ -2,7 +2,6 @@ package com.example.robotjoystick.domain.bluetooth
 
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothDevice
-import com.example.robotjoystick.data.bluetooth.BluetoothCommunicationException
 import com.example.robotjoystick.data.bluetooth.connector.BluetoothConnector
 import com.example.robotjoystick.data.bluetooth.connector.factory.BluetoothConnectorFactory
 import com.example.robotjoystick.data.bluetooth.permissions.BluetoothPermissionsManager
@@ -15,14 +14,15 @@ class ConnectBluetoothUseCase @Inject constructor(
     private val scanBluetoothDevices: ScanBluetoothDevicesUseCase,
     private val getBluetoothDevice: GetBluetoothDeviceUseCase,
     private val bluetoothConnectorFactory: BluetoothConnectorFactory,
-    private val permissionsManager: BluetoothPermissionsManager
+    private val permissionsManager: BluetoothPermissionsManager,
+    private val createBond: CreateBondUseCase,
 ) {
     suspend operator fun invoke(bluetoothDeviceData: BluetoothDeviceData): BluetoothConnector {
         scanBluetoothDevices.stop()
         val device = getBluetoothDevice(bluetoothDeviceData)
         permissionsManager.withConnectPermissions {
-            if (device.bondState != BluetoothDevice.BOND_BONDED && !device.createBond()) {
-                throw BluetoothCommunicationException("Unable to pair device: ${device.name}")
+            if (device.bondState != BluetoothDevice.BOND_BONDED) {
+                createBond(device)
             }
         }
         return bluetoothConnectorFactory.create(device)

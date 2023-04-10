@@ -3,7 +3,6 @@ package com.example.robotjoystick.view.joystick
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
 import android.view.View
 import com.example.robotjoystick.R
@@ -178,7 +177,6 @@ class JoystickView(
         if (direction != directionState) {
             directionState = direction
             directionChangedListener?.let { listener ->
-                performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
                 post { listener(direction) }
             }
         }

@@ -9,7 +9,7 @@ data class JoystickState(
     val news: News? = null,
 ) : State {
     sealed interface News {
-        data class ShowQuitDialog(
+        data class DisconnectDialog(
             @StringRes
             val title: Int,
             val titleArg: String,
@@ -18,5 +18,7 @@ data class JoystickState(
             @StringRes
             val negativeButtonText: Int,
         ) : News
+
+        object PerformHapticFeedback : News
     }
 }
