@@ -42,10 +42,7 @@ abstract class BaseFragment<S: State, I: Intent, VM: BaseViewModel<out S, in I>>
     }
 
     protected fun send(viewModel: BaseViewModel<*, in I>, intent: I) {
-        lifecycleScope.launch(Dispatchers.Default) {
-            viewModel.send(intent)
-            Log.i("SENT", intent.javaClass.simpleName)
-        }
+        viewModel.onIntent(intent)
         Log.i("SENT FINISHED", intent.javaClass.simpleName)
     }
 

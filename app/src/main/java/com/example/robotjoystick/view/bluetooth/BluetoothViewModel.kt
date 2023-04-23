@@ -1,7 +1,6 @@
 package com.example.robotjoystick.view.bluetooth
 
 import android.app.Activity
-import androidx.lifecycle.viewModelScope
 import com.example.robotjoystick.R
 import com.example.robotjoystick.data.bluetooth.BluetoothCommunicationException
 import com.example.robotjoystick.data.bluetooth.permissions.BluetoothDisabledException
@@ -10,12 +9,13 @@ import com.example.robotjoystick.domain.bluetooth.BluetoothCommunicationUseCase
 import com.example.robotjoystick.view.BaseViewModel
 import com.example.robotjoystick.view.Intent
 import com.example.robotjoystick.view.State
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
+import kotlin.coroutines.CoroutineContext
 
 abstract class BluetoothViewModel<S: State, I: Intent>(
     private val bluetoothCommunication: BluetoothCommunicationUseCase<*, *>?,
@@ -37,45 +37,43 @@ abstract class BluetoothViewModel<S: State, I: Intent>(
             BluetoothCommunicationException.Type.SEND -> BluetoothAction.BluetoothError(R.string.could_not_send)
             BluetoothCommunicationException.Type.RECEIVE -> BluetoothAction.BluetoothError(R.string.could_not_receive)
         }
-        viewModelScope.launch {
+        onCoroutine(Dispatchers.IO) {
             bluetoothCommunication?.stop()
             actions.emit(error)
         }
     }
 
-    protected suspend fun <R> withPermissions(action: suspend () -> R): R {
+    protected open suspend fun withPermissions(action: suspend () -> Unit) {
         return try {
             action()
         } catch (denied: PermissionsDeniedException) {
-            retryWithPermissions(denied.permissions, action) ?: throw denied
+            retryWithGrantedPermissions(denied.permissions, action)
         } catch (disabled: BluetoothDisabledException) {
-            retryWithBluetoothEnabled(action) ?: throw disabled
+            retryWithBluetoothEnabled(action)
         }
     }
 
-    private suspend fun <R> retryWithPermissions(permissions: List<String>, action: suspend () -> R): R? {
-        val mutex = Mutex(true)
-        var granted = false
+    protected fun launchWithPermissions(action: suspend () -> Unit): Job =
+        onCoroutine { withPermissions(action) }
+
+    protected fun launchWithPermissions(context: CoroutineContext, action: suspend () -> Unit): Job =
+        onCoroutine(context) { withPermissions(action) }
+
+    private suspend fun retryWithGrantedPermissions(permissions: List<String>, action: suspend () -> Unit) {
+        val context = currentCoroutineContext()
         actions.emit(BluetoothAction.PermissionsRequest(permissions) { result ->
-            granted = !result.containsValue(false)
-            mutex.unlock()
+            if (!result.containsValue(false)) {
+                onCoroutine(context) { action() }
+            }
         })
-        return mutex.withLock {
-            if (granted) action() else null
-        }
     }
 
-    private suspend fun <R> retryWithBluetoothEnabled(action: suspend () -> R): R? {
-        val mutex = Mutex(true)
-        var bluetoothEnabled = false
+    private suspend fun retryWithBluetoothEnabled(action: suspend () -> Unit) {
+        val context = currentCoroutineContext()
         actions.emit(BluetoothAction.EnableBluetoothRequest { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                bluetoothEnabled = true
+                onCoroutine(context) { action() }
             }
-            mutex.unlock()
         })
-        return mutex.withLock {
-            if (bluetoothEnabled) action() else null
-        }
     }
 }

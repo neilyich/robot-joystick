@@ -14,19 +14,19 @@ class JoystickViewModel @Inject constructor(
 ) : BluetoothViewModel<JoystickState, JoystickIntent>(communication) {
     override val _stateFlow = MutableStateFlow(JoystickState("...", emptyList()))
 
-    override suspend fun reduce(intent: JoystickIntent) {
+    override fun onIntent(intent: JoystickIntent) {
         when (intent) {
-            is JoystickIntent.JoystickDirectionChanged -> withPermissions {
+            is JoystickIntent.JoystickDirectionChanged -> launchWithPermissions {
                 emit(state.copy(news = JoystickState.News.PerformHapticFeedback))
                 Log.i("THREAD", Thread.currentThread().name)
                 val msg = state.messages.size.toString() + " " + communication.sendAndReceive(intent.direction.javaClass.simpleName)
                 emit(state.copy(messages = state.messages + msg))
             }
-            is JoystickIntent.ArgumentsReceived -> {
+            is JoystickIntent.ArgumentsReceived -> onCoroutine {
                 Log.i("Joystick", "args received")
                 emit(state.copy(deviceName = intent.deviceName))
             }
-            JoystickIntent.BackPressed -> {
+            JoystickIntent.BackPressed -> onCoroutine {
                 emit(state.copy(news = JoystickState.News.DisconnectDialog(
                     title = R.string.dialog_quit_and_disconnect,
                     titleArg = state.deviceName,
@@ -37,8 +37,8 @@ class JoystickViewModel @Inject constructor(
             JoystickIntent.DisconnectConfirmed -> {
                 router.exit()
             }
-            JoystickIntent.NewsShown -> emit(state.copy(news = null))
-            JoystickIntent.Stopped -> withPermissions {
+            JoystickIntent.NewsShown -> onCoroutine { emit(state.copy(news = null)) }
+            JoystickIntent.Stopped -> launchWithPermissions {
                 Log.i("BackPressed", "stopping")
                 communication.stop()
                 Log.i("BackPressed", "stopped")

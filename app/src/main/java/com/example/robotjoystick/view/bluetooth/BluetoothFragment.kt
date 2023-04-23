@@ -70,5 +70,6 @@ abstract class BluetoothFragment<S: State, I: Intent, VM: BluetoothViewModel<S, 
     override fun onDetach() {
         super.onDetach()
         requestMultiplePermissionsLauncher.unregister()
+        enableBluetoothLauncher.unregister()
     }
 }

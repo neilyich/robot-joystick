@@ -18,16 +18,16 @@ class KnownDevicesViewModel @Inject constructor(
 
     override val _stateFlow = MutableStateFlow(KnownDevicesState())
 
-    override suspend fun reduce(intent: KnownDevicesIntent) {
+    override fun onIntent(intent: KnownDevicesIntent) {
         when (intent) {
-            KnownDevicesIntent.RefreshClicked, KnownDevicesIntent.CreateView -> withPermissions {
+            KnownDevicesIntent.RefreshClicked, KnownDevicesIntent.CreateView -> launchWithPermissions {
                 Log.i("RefreshClicked", "start")
                 emit(state.loading())
                 val knownDevices = getKnownBluetoothDevices()
                 Log.i("RefreshClicked", "$knownDevices")
                 emit(state.ready().copy(devices = knownDevices))
             }
-            is KnownDevicesIntent.DeviceClicked -> withPermissions {
+            is KnownDevicesIntent.DeviceClicked -> launchWithPermissions {
                 Log.i("DeviceClicked", "here")
                 bluetoothCommunication.start(intent.device)
                 Log.i("DeviceClicked", "connected")

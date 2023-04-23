@@ -7,6 +7,7 @@ import com.example.robotjoystick.data.bluetooth.device.BluetoothDeviceData
 import com.example.robotjoystick.data.bluetooth.scanner.BluetoothDevicesScanner
 import javax.inject.Inject
 
+// класс отвечает за составление и обновление списка доступных устройств
 class ScanBluetoothDevicesUseCase @Inject constructor(
     private val getBluetoothDeviceData: GetBluetoothDeviceDataUseCase,
     private val devicesScanner: BluetoothDevicesScanner,
@@ -14,6 +15,8 @@ class ScanBluetoothDevicesUseCase @Inject constructor(
 ) {
 
     private val foundDevices = ArrayList<BluetoothDeviceData>()
+
+    // начать сканирование доступных устройств
     suspend fun start(handler: suspend (updatedFoundDevices: List<BluetoothDeviceData>) -> Unit) {
         stop()
         foundDevices.clear()
@@ -42,5 +45,6 @@ class ScanBluetoothDevicesUseCase @Inject constructor(
         }
     }
 
+    // закончить сканирование доступных устройств
     suspend fun stop() = ignoringPermissions { devicesScanner.stopScan() }
 }

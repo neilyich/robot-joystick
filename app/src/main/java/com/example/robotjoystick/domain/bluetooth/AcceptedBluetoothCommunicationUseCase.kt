@@ -2,7 +2,7 @@ package com.example.robotjoystick.domain.bluetooth
 
 import android.util.Log
 import com.example.robotjoystick.data.bluetooth.BluetoothCommunicationException
-import com.example.robotjoystick.data.bluetooth.RecoverableBluetoothCommunication
+import com.example.robotjoystick.data.bluetooth.BluetoothCommunication
 import com.example.robotjoystick.data.bluetooth.communicator.BluetoothCommunicator
 import com.example.robotjoystick.data.bluetooth.communicator.factory.BluetoothCommunicatorFactory
 import com.example.robotjoystick.data.bluetooth.connector.AcceptorBluetoothConnector
@@ -20,7 +20,7 @@ class AcceptedBluetoothCommunicationUseCase @Inject constructor(
     private val getBluetoothDeviceData: GetBluetoothDeviceDataUseCase
 ) : BluetoothCommunicationUseCase<String, String> {
 
-    private var communication: RecoverableBluetoothCommunication<String, String, out BluetoothCommunicator<String, String>>? = null
+    private var communication: BluetoothCommunication<String, String, out BluetoothCommunicator<String, String>>? = null
 
     private var _device: BluetoothDeviceData? = null
 
@@ -29,7 +29,7 @@ class AcceptedBluetoothCommunicationUseCase @Inject constructor(
     suspend fun start(): BluetoothDeviceData {
         stop()
         communication = permissionsManager.withConnectPermissions {
-            RecoverableBluetoothCommunication(acceptorBluetoothConnector, bluetoothCommunicatorFactory).also { it.start() }
+            BluetoothCommunication(acceptorBluetoothConnector, bluetoothCommunicatorFactory).also { it.start() }
         }
         val d = getBluetoothDeviceData(acceptorBluetoothConnector.connectedDevice)
         _device = d
@@ -46,7 +46,7 @@ class AcceptedBluetoothCommunicationUseCase @Inject constructor(
         communication?.stop()
         communication = null
         _device = null
-        Log.i("TEST1", "stop")
+        Log.i("AcceptedBluetoothCommunicationUseCase", "stopped")
     }
 
 }

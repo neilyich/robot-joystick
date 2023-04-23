@@ -1,6 +1,5 @@
 package com.example.robotjoystick.view.scandevices
 
-import android.util.Log
 import com.example.robotjoystick.domain.bluetooth.ClientBluetoothCommunicationUseCase
 import com.example.robotjoystick.domain.bluetooth.ScanBluetoothDevicesUseCase
 import com.example.robotjoystick.view.bluetooth.BluetoothViewModel
@@ -16,33 +15,25 @@ class ScanDevicesViewModel @Inject constructor(
 ) : BluetoothViewModel<ScanDevicesState, ScanDevicesIntent>(bluetoothCommunication) {
     override val _stateFlow = MutableStateFlow(ScanDevicesState(emptyList()))
 
-    override suspend fun reduce(
-        intent: ScanDevicesIntent
-    ) {
+    // обработка события с экрана поиска доступных устройств
+    override fun onIntent(intent: ScanDevicesIntent) {
         when (intent) {
-            is ScanDevicesIntent.DeviceClicked -> withPermissions {
+            // при нажатии на устройство в списке
+            is ScanDevicesIntent.DeviceClicked -> launchWithPermissions {
                 scanBluetoothDevices.stop()
                 bluetoothCommunication.start(intent.device)
                 router.navigateTo(JoystickScreen(intent.device))
             }
-            ScanDevicesIntent.Resumed -> withPermissions {
-                Log.i("STARTING SCAN", "aboba")
+            // при отображении экрана
+            ScanDevicesIntent.Resumed -> launchWithPermissions {
                 scanBluetoothDevices.start { updatedDevices ->
                     emit(state.copy(foundDevices = updatedDevices))
                 }
-                Log.i("STARTED", "!")
             }
-            ScanDevicesIntent.Paused -> withPermissions {
-                Log.i("PAUSED", "stopping")
+            // при закрытии экрана
+            ScanDevicesIntent.Paused -> launchWithPermissions {
                 scanBluetoothDevices.stop()
-                Log.i("PAUSED", "stopped")
             }
         }
-    }
-
-    override fun handleException(
-        e: Throwable
-    ) {
-        super.handleException(e)
     }
 }

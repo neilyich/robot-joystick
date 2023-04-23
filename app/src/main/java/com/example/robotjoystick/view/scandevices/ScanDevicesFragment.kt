@@ -11,12 +11,14 @@ import com.example.robotjoystick.view.BaseFragment
 import com.example.robotjoystick.view.bluetooth.BluetoothFragment
 import com.example.robotjoystick.view.bluetoothdevice.BluetoothDeviceDataArrayAdapter
 
+// экран поиска доступных устройств
 class ScanDevicesFragment : BluetoothFragment<ScanDevicesState, ScanDevicesIntent, ScanDevicesViewModel>() {
     override val viewModel: ScanDevicesViewModel by viewModels { viewModelFactory }
 
     private lateinit var binding: ScanNewDevicesFragmentBinding
     private lateinit var adapter: BluetoothDeviceDataArrayAdapter
 
+    // инициализация экрана
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,16 +32,19 @@ class ScanDevicesFragment : BluetoothFragment<ScanDevicesState, ScanDevicesInten
         return binding.root
     }
 
+    // при открытии экрана
     override fun onResume() {
         send(ScanDevicesIntent.Resumed)
         super.onResume()
     }
 
+    // при закрытии экрана
     override fun onPause() {
         send(ScanDevicesIntent.Paused)
         super.onPause()
     }
 
+    // отрисовка списка доступных устройств
     override fun render(state: ScanDevicesState) {
         Log.i("SUBMIT", state.foundDevices.toString())
         adapter.submitList(state.foundDevices)
