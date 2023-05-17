@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.example.robotjoystick.databinding.JoystickFragmentBinding
 import com.example.robotjoystick.view.BaseFragment
@@ -28,7 +29,7 @@ class JoystickFragment : BluetoothFragment<JoystickState, JoystickIntent, Joysti
 
         requireArguments().getString(DEVICE_NAME)?.let { send(JoystickIntent.ArgumentsReceived(it)) }
 
-        binding.joystick.setOnDirectionChangedListener {
+        binding.legLeft.setOnDirectionChangedListener {
             send(JoystickIntent.JoystickDirectionChanged(it))
         }
 
@@ -39,6 +40,14 @@ class JoystickFragment : BluetoothFragment<JoystickState, JoystickIntent, Joysti
 
         addBackPressedCallback {
             send(JoystickIntent.BackPressed)
+        }
+
+        binding.debugSwitch.setOnCheckedChangeListener { _, isChecked ->
+            binding.msgList.visibility = if (isChecked) {
+                View.VISIBLE
+            } else {
+                View.INVISIBLE
+            }
         }
 
         return binding.root
@@ -55,7 +64,9 @@ class JoystickFragment : BluetoothFragment<JoystickState, JoystickIntent, Joysti
         state.news?.let {
             when (it) {
                 is JoystickState.News.DisconnectDialog -> showQuitDialog(it)
-                JoystickState.News.PerformHapticFeedback -> binding.joystick.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+                JoystickState.News.PerformHapticFeedback -> {
+                    binding.handLeft.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK)
+                }
             }
             send(JoystickIntent.NewsShown)
         }

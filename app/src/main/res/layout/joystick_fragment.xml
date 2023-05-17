@@ -18,25 +18,66 @@
         >
     </TextView>
 
+    <Switch
+        android:id="@+id/debug_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/list_title"
+        android:checked="true"
+        >
+    </Switch>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/msg_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/list_title"
-        android:layout_above="@id/joystick"
+        android:layout_height="200dp"
+        android:layout_below="@id/debug_switch"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:padding="10dp"
         >
     </androidx.recyclerview.widget.RecyclerView>
 
-    <com.example.robotjoystick.view.joystick.JoystickView
-        android:id="@+id/joystick"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
+    <FrameLayout
+        android:id="@+id/joysticks"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_below="@id/msg_list"
         >
-    </com.example.robotjoystick.view.joystick.JoystickView>
+        <com.example.robotjoystick.view.joystick.JoystickView
+            android:id="@+id/hand_left"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="start|top"
+            android:layout_marginBottom="20dp"
+            >
+        </com.example.robotjoystick.view.joystick.JoystickView>
+
+        <com.example.robotjoystick.view.joystick.JoystickView
+            android:id="@+id/hand_right"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="end|top"
+            android:layout_marginBottom="20dp"
+            >
+        </com.example.robotjoystick.view.joystick.JoystickView>
+
+        <com.example.robotjoystick.view.joystick.JoystickView
+            android:id="@+id/leg_left"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="start|bottom"
+            android:layout_marginBottom="20dp"
+            >
+        </com.example.robotjoystick.view.joystick.JoystickView>
+
+        <com.example.robotjoystick.view.joystick.JoystickView
+            android:id="@+id/leg_right"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="end|bottom"
+            android:layout_marginBottom="20dp"
+            >
+        </com.example.robotjoystick.view.joystick.JoystickView>
+    </FrameLayout>
 
 </RelativeLayout>
