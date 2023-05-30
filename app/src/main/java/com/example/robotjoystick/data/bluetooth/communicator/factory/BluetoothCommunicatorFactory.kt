@@ -4,6 +4,6 @@ import com.example.robotjoystick.data.bluetooth.communicator.BluetoothCommunicat
 import com.example.robotjoystick.data.bluetooth.connector.BluetoothConnector
 
 @FunctionalInterface
-interface BluetoothCommunicatorFactory<In, Out, Communicator : BluetoothCommunicator<In, Out>> {
+fun interface BluetoothCommunicatorFactory<In, Out, Communicator : BluetoothCommunicator<In, Out>> {
     fun create(connector: BluetoothConnector): Communicator
 }

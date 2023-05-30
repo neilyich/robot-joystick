@@ -3,6 +3,7 @@ package com.example.robotjoystick.view.knowndevices
 import android.util.Log
 import com.example.robotjoystick.domain.bluetooth.ClientBluetoothCommunicationUseCase
 import com.example.robotjoystick.domain.bluetooth.GetKnownBluetoothDevicesUseCase
+import com.example.robotjoystick.domain.bluetooth.ReceiveBluetoothDataUseCase
 import com.example.robotjoystick.view.bluetooth.BluetoothViewModel
 import com.example.robotjoystick.view.joystick.JoystickScreen
 import com.github.terrakok.cicerone.Router
@@ -12,8 +13,9 @@ import javax.inject.Inject
 
 class KnownDevicesViewModel @Inject constructor(
     private val getKnownBluetoothDevices: GetKnownBluetoothDevicesUseCase,
-    private val bluetoothCommunication: ClientBluetoothCommunicationUseCase,
+    bluetoothCommunication: ClientBluetoothCommunicationUseCase,
     private val router: Router,
+    private val receiveBluetoothData: ReceiveBluetoothDataUseCase,
 ) : BluetoothViewModel<KnownDevicesState, KnownDevicesIntent>(bluetoothCommunication) {
 
     override val _stateFlow = MutableStateFlow(KnownDevicesState())
@@ -29,7 +31,7 @@ class KnownDevicesViewModel @Inject constructor(
             }
             is KnownDevicesIntent.DeviceClicked -> launchWithPermissions {
                 Log.i("DeviceClicked", "here")
-                bluetoothCommunication.start(intent.device)
+                receiveBluetoothData.start(intent.device)
                 Log.i("DeviceClicked", "connected")
                 router.navigateTo(JoystickScreen(intent.device))
             }

@@ -1,6 +1,7 @@
 package com.example.robotjoystick.view.scandevices
 
 import com.example.robotjoystick.domain.bluetooth.ClientBluetoothCommunicationUseCase
+import com.example.robotjoystick.domain.bluetooth.ReceiveBluetoothDataUseCase
 import com.example.robotjoystick.domain.bluetooth.ScanBluetoothDevicesUseCase
 import com.example.robotjoystick.view.bluetooth.BluetoothViewModel
 import com.example.robotjoystick.view.joystick.JoystickScreen
@@ -10,8 +11,9 @@ import javax.inject.Inject
 
 class ScanDevicesViewModel @Inject constructor(
     private val scanBluetoothDevices: ScanBluetoothDevicesUseCase,
-    private val bluetoothCommunication: ClientBluetoothCommunicationUseCase,
+    bluetoothCommunication: ClientBluetoothCommunicationUseCase,
     private val router: Router,
+    private val receiveBluetoothData: ReceiveBluetoothDataUseCase,
 ) : BluetoothViewModel<ScanDevicesState, ScanDevicesIntent>(bluetoothCommunication) {
     override val _stateFlow = MutableStateFlow(ScanDevicesState(emptyList()))
 
@@ -21,7 +23,7 @@ class ScanDevicesViewModel @Inject constructor(
             // при нажатии на устройство в списке
             is ScanDevicesIntent.DeviceClicked -> launchWithPermissions {
                 scanBluetoothDevices.stop()
-                bluetoothCommunication.start(intent.device)
+                receiveBluetoothData.start(intent.device)
                 router.navigateTo(JoystickScreen(intent.device))
             }
             // при отображении экрана
